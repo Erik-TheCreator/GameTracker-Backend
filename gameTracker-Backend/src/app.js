@@ -8,10 +8,11 @@ const corsOptions = {
     origin: "http://localhost:5173", // Your frontend origin
     credentials: true,               // Allow cookies/credentials
   };
-app.use(cors(corsOptions));
+app.use(cors(corsOptions))
 app.use(express.json())
-const {getLogin}=require("./domain/users/controllers/userController");
+const {getLogin}=require("./domain/users/controllers/userController")
 const gamesRoutes=require("./domain/games/routes/gamesRoute")
+const listRoutes = require("./domain/lists/routes/listRoute")
 
 app.use(session({
     secret: "segredo-simples",
@@ -28,6 +29,7 @@ app.post("/login", getLogin);
 const PORT=process.env.PORT;
  
 app.use("/gametracker",authMiddleware,gamesRoutes)
+app.use("/listas", authMiddleware, listRoutes);
  
 app.listen(PORT,()=>{
     console.log("Servidor funcionando na porta 3000!")
