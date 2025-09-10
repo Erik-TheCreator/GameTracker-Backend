@@ -3,13 +3,20 @@ const listRepository = require("../repository/listRepository");
 const addGameToList = async (req, res) => {
   const { id_usuario, id_game, descricao } = req.body;
 
-  if (!id_usuario || !id_game) {
-    return res.status(400).json({ mensagem: "Usuário e jogo são obrigatórios" });
+  if (!id_usuario || !id_game || !descricao) {
+    return res.status(400).json({ mensagem: "Usuário, jogo e descrição são obrigatórios" });
   }
 
   try {
-    const novoRegistro = await listRepository.addGameToList(id_usuario, id_game, descricao);
-    res.status(201).json(novoRegistro);
+    let lista = await listRepository.findListByUserAndDescricao(id_usuario, descricao);
+
+    if (!lista) {
+      lista = await listRepository.createLista(id_usuario, descricao);
+    }
+
+    const jogo = await listRepository.addGameToList(lista.id, id_game);
+
+    res.status(201).json({ mensagem: "Jogo adicionado com sucesso", lista, jogo });
   } catch (err) {
     console.error(err);
     res.status(500).json({ mensagem: "Erro ao adicionar jogo à lista" });
