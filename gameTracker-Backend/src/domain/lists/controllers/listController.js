@@ -35,7 +35,20 @@ const getListByUser = async (req, res) => {
   }
 };
 
+async function getListasComJogos(req, res) {
+  const { id_usuario } = req.params;
+  try {
+    const listas = await listRepository.getListasComJogos(id_usuario);
+    res.json(listas);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ mensagem: "Erro ao buscar listas" });
+  }
+}
+
+
 module.exports = {
   addGameToList,
   getListByUser,
+  getListasComJogos
 };

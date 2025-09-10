@@ -32,9 +32,29 @@ async function getListByUser(id_usuario) {
   return rows;
 }
 
+async function getListasComJogos(id_usuario) {
+  const [listas] = await db.query("SELECT * FROM listas WHERE id_usuario = ?", [id_usuario]);
+
+  for (let lista of listas) {
+    const [games] = await db.query(
+      `SELECT g.* 
+       FROM lista_games lg
+       JOIN games g ON lg.id_game = g.id
+       WHERE lg.id_listas = ?`,
+      [lista.id]
+    );
+    lista.games = games;
+  }
+
+  return listas;
+}
+
+
 module.exports = {
   findListByUserAndDescricao,
   createLista,
   addGameToList,
   getListByUser,
+  getListasComJogos
+
 };
