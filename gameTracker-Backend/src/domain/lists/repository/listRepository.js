@@ -50,11 +50,26 @@ async function getListasComJogos(id_usuario) {
 }
 
 
+async function deleteLista(id) {
+  await db.query("DELETE FROM lista_games WHERE id_listas = ?", [id]); 
+  await db.query("DELETE FROM listas WHERE id = ?", [id]); 
+}
+
+async function updateLista(id, descricao) {
+  await db.query("UPDATE listas SET descricao = ? WHERE id = ?", [descricao, id]);
+}
+
+async function deleteJogoDaLista(listaId, jogoId) {
+  await db.query("DELETE FROM lista_games WHERE id_listas = ? AND id_game = ?", [listaId, jogoId]);
+}
+
 module.exports = {
   findListByUserAndDescricao,
   createLista,
   addGameToList,
   getListByUser,
-  getListasComJogos
-
+  getListasComJogos,
+  deleteLista,
+  updateLista,
+  deleteJogoDaLista
 };
