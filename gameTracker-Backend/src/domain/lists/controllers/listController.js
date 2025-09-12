@@ -76,6 +76,8 @@ const deletarJogoDaLista = async (req, res) => {
   }
 };
 
+
+
 module.exports = {
   addGameToList,
   getListasComJogos,

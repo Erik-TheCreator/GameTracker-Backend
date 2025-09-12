@@ -63,6 +63,8 @@ async function deleteJogoDaLista(listaId, jogoId) {
   await db.query("DELETE FROM lista_games WHERE id_listas = ? AND id_game = ?", [listaId, jogoId]);
 }
 
+
+
 module.exports = {
   findListByUserAndDescricao,
   createLista,

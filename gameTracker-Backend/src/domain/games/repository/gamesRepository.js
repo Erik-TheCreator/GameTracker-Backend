@@ -5,7 +5,16 @@ class GamesRepository{
  
         const [row]= await db.query("SELECT * FROM games");
         return row
+
+
     }
+
+    async findById(id){
+      const [row]=await db.query("SELECT * FROM games where id =?",[id])
+      return row[0]
+    }
+
+    
 
 }
 
