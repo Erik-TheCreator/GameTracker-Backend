@@ -45,20 +45,29 @@ const usuarioRepository=require("../repository/userRepository");
 
  }
 
- const getUser=async(req,res)=>{
-    if (!req.session.user) {
-        return res.status(401).json({ mensagem: "Usuário não autenticado" });
-      }
-    
-      try {
-        const user = await usuarioRepository.getUserById(req.session.user.id);
-        res.json(user);
-      } catch (err) {
-        console.error(err);
-        res.status(500).json({ mensagem: "Erro ao buscar usuário" });
-      }
+ async function getUser(req, res) {
+  if (!req.session.user) {
+    return res.status(401).json({ mensagem: "Usuário não autenticado" });
+  }
 
- }
+  try {
+    const user = await usuarioRepository.getUserById(req.session.user.id);
+
+    if (!user) {
+      return res.status(404).json({ mensagem: "Usuário não encontrado" });
+    }
+
+    res.json({
+      id: user.id,
+      nome: user.nome,
+      foto: user.foto,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ mensagem: "Erro ao buscar usuário" });
+  }
+}
+
 
  
 
