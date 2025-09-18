@@ -14,6 +14,7 @@ const {getLogin}=require("./domain/users/controllers/userController")
 const gamesRoutes=require("./domain/games/routes/gamesRoute")
 const listRoutes = require("./domain/lists/routes/listRoute")
 const reviewsRoutes=require("./domain/reviews/routes/reviewRoute")
+const userRoutes=require("./domain/users/routes/userRoute")
 
 app.use(session({
     secret: "segredo-simples",
@@ -30,6 +31,7 @@ app.post("/login", getLogin);
 const PORT=process.env.PORT;
  
 app.use("/gametracker",authMiddleware,gamesRoutes)
+app.use("/usuarios", authMiddleware, userRoutes)
 app.use("/listas", authMiddleware, listRoutes)
 app.use("/reviews", authMiddleware, reviewsRoutes)
 

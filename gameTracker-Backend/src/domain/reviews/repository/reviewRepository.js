@@ -16,7 +16,7 @@ exports.getByUserAndGame = async (id_usuario, id_game) => {
 
 exports.getByGame = async (id_game) => {
   const [result] = await db.query(
-    `SELECT r.id, r.id_usuario,r.comentarios, r.data_review,r.rating, u.nome as autor
+    `SELECT r.id, r.id_usuario,r.comentarios, r.data_review,r.rating, u.nome as autor, u.foto
      FROM reviews r
      JOIN usuario u ON r.id_usuario = u.id
      WHERE r.id_game = ?

@@ -7,6 +7,11 @@ class UsuarioRepository{
         return rows
     }
 
+    async getUserById(id) {
+        const [rows] = await db.query("SELECT * FROM usuario WHERE id = ?", [id]);
+        return rows[0];
+      }
+
     async getUserByEmail(email) {
         const [rows] = await db.query("SELECT * FROM usuario WHERE email = ?", [email]);
         return rows[0]; 
@@ -22,6 +27,12 @@ class UsuarioRepository{
         }
 
         return null;
+    }
+
+    async updateFoto(id,foto){
+        const query = "UPDATE usuario SET foto = ? WHERE id = ?";
+        await db.query(query, [foto, id]);
+        return query
     }
 
 
