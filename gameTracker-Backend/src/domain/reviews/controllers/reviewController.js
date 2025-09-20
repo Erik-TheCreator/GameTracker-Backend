@@ -11,6 +11,18 @@ exports.getByGame = async (req, res) => {
   }
 };
 
+exports.getAverageRating=async(req,res)=>{
+    try {
+    const { id_game } = req.params;
+    const media = await reviewRepository.getAverageByGameId(id_game);
+
+    res.json({ id_game, media: parseFloat(media.toFixed(1)) });
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao calcular média" });
+  }
+}
+
+
 exports.create = async (req, res) => {
   try {
     const { id_usuario, id_game, review, rating } = req.body;

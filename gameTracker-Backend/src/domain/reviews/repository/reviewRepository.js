@@ -30,6 +30,12 @@ exports.getByGame = async (id_game) => {
   }));
 };
 
+exports.getAverageByGameId=async (id_game) => {
+  const [rows] = await db.query(
+    "SELECT AVG(rating) as media FROM reviews WHERE id_game = ?",
+    [id_game]  );
+  return rows[0].media || 0;
+}
 
 
 exports.create = async (id_usuario, id_game, review,rating) => {
@@ -53,3 +59,5 @@ exports.update=async (id,comentarios,rating)=>{
 exports.delete=async (id)=>{
   await db.query("DELETE FROM reviews WHERE id = ?", [id]);
 }
+
+
