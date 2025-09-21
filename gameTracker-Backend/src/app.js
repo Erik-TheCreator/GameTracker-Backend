@@ -31,7 +31,7 @@ app.post("/login", getLogin);
 const PORT=process.env.PORT;
  
 app.use("/gametracker",authMiddleware,gamesRoutes)
-app.use("/usuarios", authMiddleware, userRoutes)
+app.use("/usuarios", userRoutes)
 app.use("/listas", authMiddleware, listRoutes)
 app.use("/reviews", authMiddleware, reviewsRoutes)
 
