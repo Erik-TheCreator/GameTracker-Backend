@@ -27,13 +27,14 @@ class GamesController{
 
   async getFiltered(req, res) {
     try {
-      const { genero, ano, plataforma, ordenar } = req.query;
+      const { genero, ano, plataforma, ordenar,nome } = req.query;
 
       const jogos = await gamesRepository.findFiltered({
         genero,
         ano,
         plataforma,
         ordenar,
+        nome
       });
 
       res.status(200).json(jogos);
