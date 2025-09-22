@@ -3,6 +3,7 @@ const router=express.Router()
 const gamesController=require("../controllers/gamesController")
 
 router.get("/",gamesController.getAll)
+router.get("/all", gamesController.getAllGames); 
 router.get("/filter", gamesController.getFiltered); 
 router.get("/:id", gamesController.getById);
 

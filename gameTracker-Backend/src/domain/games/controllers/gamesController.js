@@ -11,6 +11,17 @@ class GamesController{
     }
   }
 
+  async getAllGames(req, res)  {
+  try {
+    const games = await gamesRepository.findAllWithDetails(); 
+    res.json(games);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ mensagem: "Erro ao buscar jogos" });
+  }
+};
+
+
   async getById(req, res) {
     const {id}=req.params
     try {
@@ -27,7 +38,7 @@ class GamesController{
 
   async getFiltered(req, res) {
     try {
-      const { genero, ano, plataforma, ordenar,nome } = req.query;
+      const { genero, ano, plataforma, ordenar, nome } = req.query;
 
       const jogos = await gamesRepository.findFiltered({
         genero,

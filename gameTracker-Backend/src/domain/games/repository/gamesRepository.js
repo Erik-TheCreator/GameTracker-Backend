@@ -8,6 +8,23 @@ class GamesRepository{
 
 
     }
+    
+    async findAllWithDetails() {
+  const [rows] = await db.query(`
+    SELECT g.id, g.titulo, g.data_lancamento, g.capa,
+           GROUP_CONCAT(DISTINCT ge.nome) AS generos,
+           GROUP_CONCAT(DISTINCT p.nome) AS plataformas
+    FROM games g
+    LEFT JOIN game_generos gg ON g.id = gg.id_game
+    LEFT JOIN generos ge ON gg.id_genero = ge.id
+    LEFT JOIN game_plataformas gp ON g.id = gp.id_game
+    LEFT JOIN plataformas p ON gp.id_plataforma = p.id
+    GROUP BY g.id
+    ORDER BY g.titulo ASC
+  `);
+  return rows;
+}
+
 
     async findById(id){
       const [row]=await db.query(`
@@ -25,10 +42,10 @@ class GamesRepository{
       return row[0]
     }
 
-    async findFiltered({ genero, ano, plataforma, ordenar }) {
+    async findFiltered({ genero, ano, plataforma, ordenar,nome }) {
       let query = `
         SELECT g.id, g.titulo, g.data_lancamento, g.capa,
-               IFNULL(AVG(r.nota), 0) AS media_rating,
+               IFNULL(AVG(r.rating), 0) AS media_rating,
                GROUP_CONCAT(DISTINCT ge.nome) AS generos,
                GROUP_CONCAT(DISTINCT p.nome) AS plataformas
         FROM games g
