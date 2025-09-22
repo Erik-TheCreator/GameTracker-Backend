@@ -25,6 +25,23 @@ class GamesController{
     }
   }
 
+  async getFiltered(req, res) {
+    try {
+      const { genero, ano, plataforma, ordenar } = req.query;
+
+      const jogos = await gamesRepository.findFiltered({
+        genero,
+        ano,
+        plataforma,
+        ordenar,
+      });
+
+      res.status(200).json(jogos);
+    } catch (err) {
+      console.error("Erro no Controller:", err);
+      res.status(500).json({ erro: "Erro ao filtrar jogos" });
+    }
+  }
 }
 
 module.exports = new GamesController();
