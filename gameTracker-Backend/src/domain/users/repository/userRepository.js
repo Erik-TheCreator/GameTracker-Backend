@@ -34,15 +34,10 @@ class UsuarioRepository{
         return null;
     }
 
-    async updateFoto(id,foto){
-        const query = "UPDATE usuario SET foto = ? WHERE id = ?";
-        await db.query(query, [foto, id]);
-        return query
-    }
-    async updatePerfil(userId, nome, sobre) {
+    async updatePerfil(userId, nome, sobre,foto,bordaPerfil,fotoFundo) {
   const [result] = await db.query(
-    "UPDATE usuario SET nome = ?, sobre = ? WHERE id = ?",
-    [nome, sobre, userId]
+    "UPDATE usuario SET nome = ?, sobre = ? ,foto = ?,borda_perfil=?,foto_fundo=? WHERE id = ?",
+    [nome, sobre, foto,bordaPerfil,fotoFundo,userId]
   );
   return result.affectedRows > 0;
 }

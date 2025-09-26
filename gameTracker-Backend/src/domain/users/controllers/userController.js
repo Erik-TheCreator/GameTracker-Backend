@@ -21,34 +21,22 @@ async function cadastrar(req, res) {
   }
 }
 
-async function updateFoto(req, res) {
-  if (!req.session.user) {
-    return res.status(401).json({ mensagem: "Usuário não autenticado" });
-  }
-
-  const { foto } = req.body;
-  const userId = req.session.user.id;
-
-  try {
-    const novaFoto = await userService.updateFoto(userId, foto);
-    req.session.user.foto = novaFoto;
-    res.status(200).json({ mensagem: "Foto atualizada com sucesso!" });
-  } catch (err) {
-    res.status(err.status || 500).json({ mensagem: err.mensagem || "Erro ao atualizar foto" });
-  }
-}
 
 async function updatePerfil(req, res) {
   if (!req.session.user) {
     return res.status(401).json({ mensagem: "Usuário não autenticado" });
   }
 
-  const { nome, sobre } = req.body;
+  const { nome, sobre,foto,bordaPerfil, fotoFundo } = req.body;
   const userId = req.session.user.id;
 
   try {
-    const atualizado = await userService.updatePerfil(userId, nome, sobre);
+    const atualizado = await userService.updatePerfil(userId, nome,sobre,foto, bordaPerfil, fotoFundo);
     req.session.user.nome = atualizado.nome;
+    req.session.user.foto = atualizado.foto;
+    req.session.user.bordaPerfil = atualizado.bordaPerfil;
+    req.session.user.fotoFundo = atualizado.fotoFundo;
+
     res.status(200).json({ mensagem: "Perfil atualizado com sucesso!" });
   } catch (err) {
     res.status(err.status || 500).json({ mensagem: err.mensagem || "Erro ao atualizar perfil" });
@@ -71,7 +59,6 @@ async function getUser(req, res) {
 module.exports = {
   getLogin,
   cadastrar,
-  updateFoto,
   updatePerfil,
   getUser
 };

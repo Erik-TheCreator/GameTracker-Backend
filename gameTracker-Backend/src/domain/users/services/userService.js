@@ -34,16 +34,8 @@ async function cadastrar(nome, email, senha) {
   return await usuarioRepository.criarUsuario(nome, email, senhaHash);
 }
 
-async function updateFoto(userId, foto) {
-  if (!foto) {
-    throw { status: 400, mensagem: "Foto não pode ser vazia" };
-  }
 
-  await usuarioRepository.updateFoto(userId, foto);
-  return foto;
-}
-
-async function updatePerfil(userId, nome, sobre) {
+async function updatePerfil(userId, nome, sobre,foto,bordaPerfil, fotoFundo) {
   if (!nome) {
     throw { status: 400, mensagem: "O nome não pode ser vazio" };
   }
@@ -53,12 +45,12 @@ async function updatePerfil(userId, nome, sobre) {
     throw { status: 400, mensagem: "Esse nome já está em uso." };
   }
 
-  const atualizado = await usuarioRepository.updatePerfil(userId, nome, sobre);
+  const atualizado = await usuarioRepository.updatePerfil(userId, nome, sobre,foto,bordaPerfil, fotoFundo);
   if (!atualizado) {
     throw { status: 400, mensagem: "Nenhuma alteração feita" };
   }
 
-  return { nome, sobre };
+  return {id: userId, nome,sobre, foto,bordaPerfil, fotoFundo };
 }
 
 async function getUserById(userId) {
@@ -71,14 +63,15 @@ async function getUserById(userId) {
     id: user.id,
     nome: user.nome,
     foto: user.foto,
-    sobre: user.sobre
+    sobre: user.sobre,
+    bordaPerfil: user.borda_perfil || "", 
+    fotoFundo: user.foto_fundo || "img.webp" 
   };
 }
 
 module.exports = {
   login,
   cadastrar,
-  updateFoto,
   updatePerfil,
   getUserById
 };
