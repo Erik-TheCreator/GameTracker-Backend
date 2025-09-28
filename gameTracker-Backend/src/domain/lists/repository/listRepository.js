@@ -63,6 +63,15 @@ async function deleteJogoDaLista(listaId, jogoId) {
   await db.query("DELETE FROM lista_games WHERE id_listas = ? AND id_game = ?", [listaId, jogoId]);
 }
 
+async function findGameInList(id_listas, id_game) {
+  const [rows] = await db.query(
+    "SELECT * FROM lista_games WHERE id_listas = ? AND id_game = ?",
+    [id_listas, id_game]
+  );
+  return rows[0] || null; 
+}
+
+
 
 
 module.exports = {
@@ -73,5 +82,6 @@ module.exports = {
   getListasComJogos,
   deleteLista,
   updateLista,
-  deleteJogoDaLista
+  deleteJogoDaLista,
+  findGameInList
 };
