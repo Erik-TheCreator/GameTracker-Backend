@@ -11,7 +11,7 @@ class GamesRepository{
     
     async findAllWithDetails() {
   const [rows] = await db.query(`
-    SELECT g.id, g.titulo, g.data_lancamento, g.capa,
+    SELECT g.id, g.titulo, g.data_lancamento, g.capa,g.tempo_main,g.tempo_main_sides,g.tempo_completionist,
            GROUP_CONCAT(DISTINCT ge.nome) AS generos,
            GROUP_CONCAT(DISTINCT p.nome) AS plataformas
     FROM games g

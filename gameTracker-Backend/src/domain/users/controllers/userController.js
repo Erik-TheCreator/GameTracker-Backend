@@ -1,4 +1,14 @@
 const userService = require("../services/userService");
+async function getUserById(req, res) {
+  const { id } = req.params;
+  try {
+    const user = await userService.getUserById(id);
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ mensagem: "Erro ao buscar usuário" });
+  }
+}
+
 
 async function getLogin(req, res) {
   const { email, senha } = req.body;
@@ -57,6 +67,7 @@ async function getUser(req, res) {
 }
  
 module.exports = {
+  getUserById,
   getLogin,
   cadastrar,
   updatePerfil,
